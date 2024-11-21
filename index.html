@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFM Score Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            const fields = [
+                'customer','age', 'income', 'age_youngest_child', 'debt_equity', 'gender',
+                'bad_payment', 'gold_card', 'pension_plan', 'household_debt_to_equity_ratio', 
+                'members_in_household', 'months_current_account', 'months_customer', 'call_center_contacts',
+                'loan_accounts', 'number_products', 'number_transactions', 'non_worker_percentage',
+                'white_collar_percentage', 'mortgage', 'pension', 'savings'
+            ];
+
+            for (let field of fields) {
+                let value = document.getElementById(field).value;
+                if (!value) {
+                    alert('Please fill in all fields.');
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>RFM Score Prediction</h1>
+    <form action="/predict" method="post" onsubmit="return validateForm()">
+        <!-- Add inputs for all relevant features -->
+        <label for="customer">customer:</label><br>
+        <input type="number" id="customer" name="customer" required><br><br>
+
+        <label for="age">Age:</label><br>
+        <input type="number" id="age" name="age" required><br><br>
+
+        <label for="age_youngest_child">Age of Youngest Child:</label><br>
+        <input type="number" id="age_youngest_child" name="age_youngest_child" required><br><br>
+
+        <label for="debt_equity">Debt Equity:</label><br>
+        <input type="number" id="debt_equity" name="debt_equity" required><br><br>
+
+        <label for="gender">Gender (0=Male, 1=Female):</label><br>
+        <input type="number" id="gender" name="gender" required><br><br>
+
+        <label for="bad_payment">Bad Payment (0=No, 1=Yes):</label><br>
+        <input type="number" id="bad_payment" name="bad_payment" required><br><br>
+
+        <label for="gold_card">Gold Card (0=No, 1=Yes):</label><br>
+        <input type="number" id="gold_card" name="gold_card" required><br><br>
+
+        <label for="pension_plan">Pension Plan (0=No, 1=Yes):</label><br>
+        <input type="number" id="pension_plan" name="pension_plan" required><br><br>
+
+        <label for="household_debt_to_equity_ratio">Household Debt to Equity Ratio:</label><br>
+        <input type="number" id="household_debt_to_equity_ratio" name="household_debt_to_equity_ratio" required><br><br>
+
+        <label for="income">Income:</label><br>
+        <input type="number" id="income" name="income" required><br><br>
+
+        <label for="members_in_household">Members in Household:</label><br>
+        <input type="number" id="members_in_household" name="members_in_household" required><br><br>
+
+        <label for="months_current_account">Months Current Account:</label><br>
+        <input type="number" id="months_current_account" name="months_current_account" required><br><br>
+
+        <label for="months_customer">Months as Customer:</label><br>
+        <input type="number" id="months_customer" name="months_customer" required><br><br>
+
+        <label for="call_center_contacts">Call Center Contacts:</label><br>
+        <input type="number" id="call_center_contacts" name="call_center_contacts" required><br><br>
+
+        <label for="loan_accounts">Loan Accounts:</label><br>
+        <input type="number" id="loan_accounts" name="loan_accounts" required><br><br>
+
+        <label for="number_products">Number of Products:</label><br>
+        <input type="number" id="number_products" name="number_products" required><br><br>
+
+        <label for="number_transactions">Number of Transactions:</label><br>
+        <input type="number" id="number_transactions" name="number_transactions" required><br><br>
+
+        <label for="non_worker_percentage">Non-worker Percentage:</label><br>
+        <input type="number" id="non_worker_percentage" name="non_worker_percentage" required><br><br>
+
+        <label for="white_collar_percentage">White Collar Percentage:</label><br>
+        <input type="number" id="white_collar_percentage" name="white_collar_percentage" required><br><br>
+
+        <label for="mortgage">Mortgage (0=No, 1=Yes):</label><br>
+        <input type="number" id="mortgage" name="mortgage" required><br><br>
+
+        <label for="pension">Pension (0=No, 1=Yes):</label><br>
+        <input type="number" id="pension" name="pension" required><br><br>
+
+        <label for="savings">Savings (0=No, 1=Yes):</label><br>
+        <input type="number" id="savings" name="savings" required><br><br>
+
+        <input type="submit" value="Get Prediction">
+    </form>
+
+    {% if prediction_text %}
+        <h2>{{ prediction_text }}</h2>
+    {% endif %}
+</body>
+</html>
